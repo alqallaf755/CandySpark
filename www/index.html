@@ -1,31 +1,53 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CandySpark - Home</title>
 
-<title>CandySpark - Home</title>
-<style>:root{
- --pink:#f6a9b6;
---cream:#f7eddc;
- --brown:#8b4a2f;
-  --green:#1f6b57;
-  --text:#2f2f2f;
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
---card:#ffffff;
-   --shadow:12px,26px,rgba(0,0,0,.14);
---btn:#f4a261;
---btnHover:#e76f51;
+  <style>
+    :root{
+      --pink:#f6a9b6;
+      --cream:#f7eddc;
+      --brown:#8b4a2f;
+      --green:#1f6b57;
+      --text:#2f2f2f;
 
---max: 1200px;
-}
-*{box-sizing:border-box}body{margin:0;font-family:Arial;background:var(--cream);color:var(--text);min-height:100svh;display:flex;flex-direction:column;}
-.topbar{
-  background:var(--pink);
-    height:78px;
-display:flex;
-   align-items:center;
-  position:sticky;
- top:0;
-    z-index:50;
-   box-shadow: 0 2px 0 rgba(0,0,0,.05);}
+      --card:#ffffff;
+      --shadow: 0 12px 26px rgba(0,0,0,.14);
+
+      --btn:#f4a261;
+      --btnHover:#e76f51;
+
+      --max: 1200px;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      min-height:100svh;
+      display:flex;
+      flex-direction:column;
+    }
+
+    
+    .topbar{
+      background: var(--pink);
+      height: 78px;
+      display:flex;
+      align-items:center;
+      position: sticky;
+      top:0;
+      z-index: 50;
+      box-shadow: 0 2px 0 rgba(0,0,0,.05);
+    }
     .nav-wrap{
       width: min(var(--max), calc(100% - 56px));
       margin: 0 auto;
