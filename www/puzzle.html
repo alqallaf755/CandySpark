@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Circuit Puzzles ⚡</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --pink:#f6a9b6;
+  --cream:#f7eddc;
+  --brown:#8b4a2f;
+  --green:#1f6b57;
+  --text:#2f2f2f;
+  --muted:#4b4b4b;
+
+  --card:#ffffff;
+  --cardShadow: 0 10px 24px rgba(0,0,0,.12);
+  --radius:18px;
+
+  --btn:#f4a261;
+  --btnHover:#e76f51;
+
+  --max: 1200px;
+}
+
+*{ box-sizing:border-box; }
+html, body{ height:100%; }
+body{
+  margin:0;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  min-height:100svh;
+  display:flex;
+  flex-direction:column;
+}
+
+
+.topbar{
+  background: var(--pink);
+  height: 78px;
+  display:flex;
+  align-items:center;
+  position: sticky;
+  top:0;
+  z-index: 50;
+  box-shadow: 0 2px 0 rgba(0,0,0,.05);
+}
+.nav-wrap{
+  width: min(var(--max), calc(100% - 56px));
+  margin: 0 auto;
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-family: "Baloo 2", cursive;
+  font-weight:800;
+  font-size: 28px;
+  color:#fff;
+  white-space:nowrap;
+  user-select:none;
+}
+.logo{
+  width: 34px;
+  height: 34px;
+  border: 2px solid rgba(255,255,255,.9);
+  border-radius: 8px;
+  display:grid;
+  place-items:center;
+}
+.nav{
+  display:flex;
+  align-items:center;
+  gap: 26px;
+  font-family: "Baloo 2", cursive;
+  font-size: 26px;
+  color: rgba(255,255,255,.92);
+  white-space:nowrap;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+.nav a{
+  color: inherit;
+  text-decoration:none;
+  opacity:.95;
+  transition: opacity .15s ease, transform .08s ease;
+}
+.nav a:hover{ opacity:1; transform: translateY(-1px); }
+
+
+main{
+  width: min(var(--max), calc(100% - 56px));
+  margin: 18px auto 34px;
+  flex: 1;
+}
+
+
+.page-title{
+  font-family: "Baloo 2", cursive;
+  color: var(--brown);
+  font-weight: 800;
+  line-height: 1;
+  margin: 0 0 8px;
+  font-size: clamp(34px, 3.3vw, 54px);
+}
+.page-subtitle{
+  font-family: "Baloo 2", cursive;
+  color: var(--green);
+  font-weight: 800;
+  margin: 0 0 18px;
+  font-size: clamp(18px, 1.8vw, 26px);
+}
+
+
+.panel{
+  background: var(--card);
+  border-radius: 20px;
+  box-shadow: var(--cardShadow);
+  padding: clamp(16px, 3vw, 28px);
+}
+
+.container{
+  width: min(980px, calc(100% - 0px));
+  margin: 0 auto;
+}
+
+.topbar2{
+  display:flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.topbar-left h2{
+  margin:0;
+  font-family:"Baloo 2", cursive;
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--green);
+}
+.xp-display{
+  margin-top: 6px;
+  font-weight: 900;
+  color: #6a4c93;
+}
+
+.actions-right{
+  display:flex;
+  align-items:center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.nav-btn{
+  background: var(--btn);
+  border: none;
+  color:white;
+  font-weight: 900;
+  padding: 10px 16px;
+  border-radius: 12px;
+  cursor:pointer;
+  transition: .15s;
+}
+.nav-btn:hover{ background: var(--btnHover); }
+.nav-btn:disabled{ opacity: .45; cursor:not-allowed; }
+
+.back-link{
+  background: none;
+  border:none;
+  color: var(--green);
+  cursor:pointer;
+  font-weight: 900;
+  text-decoration: underline;
+  padding: 10px 8px;
+  font-family:"Baloo 2", cursive;
+}
+
+.puzzle-box{
+  background: #fff7e6;
+  border: 1px solid #f2e2c8;
+  border-radius: 16px;
+  padding: clamp(14px, 3vw, 22px);
+  display:flex;
+  flex-direction:column;
+}
+.puzzle-box p{
+  margin: 0 0 10px;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text);
+}
+.puzzle-box .hint{
+  margin-top: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #5a5a5a;
+}
+
+.slots{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+  margin: 14px 0 18px;
+}
+.slot{
+  min-height: 96px;
+  background: #fff;
+  border-radius: 12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  cursor:pointer;
+  font-weight: 900;
+  transition: .15s;
+  padding: 10px;
+  user-select:none;
+  border: 1px solid rgba(0,0,0,.06);
+  flex-direction: column;
+  gap: 6px;
+}
+.slot:hover{ background:#ffeaa7; }
+.slot.filled{ background:#f1f7ff; }
+.slot.selected{ outline: 3px solid var(--btn); }
+
+
+.components{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.component{
+  background:#fff;
+  padding: 12px 14px;
+  border-radius: 12px;
+  cursor:pointer;
+  font-weight: 900;
+  transition: .15s;
+  text-align:center;
+  user-select:none;
+  border: 1px solid rgba(0,0,0,.06);
+}
+.component:hover{ background:#ffeaa7; }
+.component img{
+  width:64px;
+  height:64px;
+  object-fit: contain;
+  display:block;
+  margin: 0 auto 6px;
+  pointer-events:none; 
+}
+
+.btn-row{
+  margin-top: 10px;
+  display:flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+button.action{
+  background: var(--btn);
+  color:white;
+  font-weight: 900;
+  border:none;
+  padding: 12px 18px;
+  border-radius: 12px;
+  cursor:pointer;
+  transition:.15s;
+}
+button.action:hover{ background: var(--btnHover); }
+
+.message{ margin-top: 12px; font-weight: 900; font-size: 16px; }
+.correct{ color:#1b8a3a; }
+.wrong{ color:#c1121f; }
+
+.score-screen{
+  text-align:center;
+  font-size: 1.1rem;
+  margin-top: 10px;
+  font-weight: 900;
+}
+.menu-btn{
+  margin-top: 18px;
+  background: var(--btn);
+  color:white;
+  font-weight: 900;
+  border:none;
+  padding: 14px 26px;
+  border-radius: 12px;
+  cursor:pointer;
+}
+.menu-btn:hover{ background: var(--btnHover); }
+
+@media (max-width: 520px){
+  .actions-right{ width:100%; }
+  .nav-btn{ flex:1; }
+  .back-link{ width:100%; text-align:center; }
+}
+
+@media (max-width: 820px){
+  .topbar{ height:auto; padding: 14px 0; }
+  .nav-wrap{ flex-wrap:wrap; justify-content:center; width: min(var(--max), calc(100% - 28px)); }
+  .brand{ width:100%; display:flex; justify-content:center; text-align:center; }
+  .nav{ width:100%; justify-content:center; gap:14px; font-size:20px; }
+  main{ width: min(var(--max), calc(100% - 28px)); }
+}
+</style>
+</head>
+
+<body>
+<header class="topbar">
+  <div class="nav-wrap">
+    <div class="brand">
+      <span class="logo" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M13 2L3 14h8l-1 8 11-14h-8l0-6Z" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      CandySpark
+    </div>
+
+    <nav class="nav" aria-label="Primary navigation">
+      <a href="index.html">Home</a>
+      <a href="learn.html">Learn</a>
+      <a href="puzzle.html">Play</a>
+      <a href="quiz.html">Quiz</a>
+      <a href="progress.html">Progress</a>
+      <a href="about.html">About</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <h1 class="page-title">Circuit Puzzles</h1>
+  <p class="page-subtitle">Build circuits and pass 5 levels</p>
+
+  <div class="panel container" id="container">
+    <div class="topbar2">
+      <div class="topbar-left">
+        <h2 id="puzzleTitle">Puzzle 1 / 5</h2>
+        <div class="xp-display" id="xpDisplay"></div>
+      </div>
+
+      <div class="actions-right">
+        <button class="nav-btn" id="prevBtn" onclick="prevPuzzle()">⬅ Prev</button>
+        <button class="nav-btn" id="nextBtn" onclick="nextPuzzle()">Next ➡</button>
+        <button class="back-link" onclick="goBack()">Back to main</button>
+      </div>
+    </div>
+
+    <div class="puzzle-box" id="puzzleBox"></div>
+    <div class="message" id="message"></div>
+  </div>
+</main>
+
+<footer>© 2025 CandySpark — Created by Shahad Alqallaf | Supervised by Dr. Kirsty McKay</footer>
+
+<script>
+
+let xp = localStorage.getItem("candyXP") ? parseInt(localStorage.getItem("candyXP")) : 0;
+
+function updateXPUI(){
+  const level = Math.floor(xp / 50) + 1;
+  document.getElementById("xpDisplay").innerText = `⭐ Level ${level} | XP: ${xp}`;
+  localStorage.setItem("candyXP", xp);
+}
+
+
+const IMG = {
+  "Battery": "images/battery.png",
+  "Switch": "images/switch.png",
+  "Resistor": "images/resistor.png",
+  "LED": "images/led.png",
+  "Buzzer": "images/buzzer.png",
+  "Capacitor": "images/capacitor.png",
+  "Lamp": "images/lamp.png",
+  "Motor": "images/motor.png",
+  "Potentiometer": "images/potentiometer.png"
+};
+
+
+const puzzles = [
+
+//WHAT IS ELECTRICITY (1–10)
+
+{
+title:"Electricity 1: Basic Flow",
+description:"Create a simple circuit",
+order:["Battery","LED"],
+components:["Battery","LED","Switch","Motor"]
+},
+
+{
+title:"Electricity 2: Add Control",
+description:"Use switch to control flow",
+order:["Battery","Switch","LED"],
+components:["Battery","Switch","LED","Motor"]
+},
+
+{
+title:"Electricity 3: Energy Source",
+description:"Connect battery to motor",
+order:["Battery","Motor"],
+components:["Battery","Motor","LED","Switch"]
+},
+
+{
+title:"Electricity 4: Power LED safely",
+description:"Add resistor protection",
+order:["Battery","Resistor","LED"],
+components:["Battery","Resistor","LED","Motor"]
+},
+
+{
+title:"Electricity 5: Switch control",
+description:"Control motor using switch",
+order:["Battery","Switch","Motor"],
+components:["Battery","Switch","Motor","LED"]
+},
+
+{
+title:"Electricity 6: Complete path",
+description:"Complete circuit path",
+order:["Battery","Switch","LED"],
+components:["Battery","Switch","LED","Resistor"]
+},
+
+{
+title:"Electricity 7: Energy transfer",
+description:"Transfer power to LED",
+order:["Battery","Resistor","LED"],
+components:["Battery","Resistor","LED","Motor"]
+},
+
+{
+title:"Electricity 8: Storage",
+description:"Use capacitor",
+order:["Battery","Capacitor","LED"],
+components:["Battery","Capacitor","LED","Motor"]
+},
+
+{
+title:"Electricity 9: Motor power",
+description:"Power motor correctly",
+order:["Battery","Motor"],
+components:["Battery","Motor","Switch","LED"]
+},
+
+{
+title:"Electricity 10: Full basic circuit",
+description:"Battery → Switch → LED",
+order:["Battery","Switch","LED"],
+components:["Battery","Switch","LED","Motor"]
+},
+
+//CIRCUITS (11–20)
+
+{
+title:"Circuits 1: Closed circuit",
+order:["Battery","Switch","LED"],
+components:["Battery","Switch","LED","Motor"]
+},
+
+{
+title:"Circuits 2: Series circuit",
+order:["Battery","Resistor","LED","Motor"],
+components:["Battery","Resistor","LED","Motor"]
+},
+
+{
+title:"Circuits 3: Motor control",
+order:["Battery","Switch","Motor"],
+components:["Battery","Switch","Motor","LED"]
+},
+
+{
+title:"Circuits 4: LED protection",
+order:["Battery","Resistor","LED"],
+components:["Battery","Resistor","LED","Motor"]
+},
+
+{
+title:"Circuits 5: Capacitor charge",
+order:["Battery","Capacitor","LED"],
+components:["Battery","Capacitor","LED","Motor"]
+},
+
+{
+title:"Circuits 6: Switch protection",
+order:["Battery","Switch","Resistor","LED"],
+components:["Battery","Switch","Resistor","LED"]
+},
+
+{
+title:"Circuits 7: Motor series",
+order:["Battery","Resistor","Motor"],
+components:["Battery","Resistor","Motor","LED"]
+},
+
+{
+title:"Circuits 8: Full series",
+order:["Battery","Switch","Resistor","LED"],
+components:["Battery","Switch","Resistor","LED"]
+},
+
+{
+title:"Circuits 9: LED activation",
+order:["Battery","Switch","LED"],
+components:["Battery","Switch","LED","Motor"]
+},
+
+{
+title:"Circuits 10: Capacitor motor",
+order:["Battery","Capacitor","Motor"],
+components:["Battery","Capacitor","Motor","LED"]
+},
+
+//CONDUCTORS (21–30)
+
+
+{
+title:"Conductors 1: Use conductor",
+order:["Battery","Wire","LED"],
+components:["Battery","Wire","LED","Wood"]
+},
+
+{
+title:"Conductors 2: Metal conductor",
+order:["Battery","Wire","Motor"],
+components:["Battery","Wire","Motor","Plastic"]
+},
+
+{
+title:"Conductors 3: Good conductor",
+order:["Battery","Wire","Resistor","LED"],
+components:["Battery","Wire","Resistor","LED"]
+},
+
+{
+title:"Conductors 4: LED path",
+order:["Battery","Wire","LED"],
+components:["Battery","Wire","LED","Rubber"]
+},
+
+{
+title:"Conductors 5: Motor path",
+order:["Battery","Wire","Motor"],
+components:["Battery","Wire","Motor","Plastic"]
+},
+
+{
+title:"Conductors 6: Circuit flow",
+order:["Battery","Wire","Switch","LED"],
+components:["Battery","Wire","Switch","LED"]
+},
+
+{
+title:"Conductors 7: Capacitor path",
+order:["Battery","Wire","Capacitor","LED"],
+components:["Battery","Wire","Capacitor","LED"]
+},
+
+{
+title:"Conductors 8: Full conductor",
+order:["Battery","Wire","Switch","Motor"],
+components:["Battery","Wire","Switch","Motor"]
+},
+
+{
+title:"Conductors 9: LED conductor",
+order:["Battery","Wire","LED"],
+components:["Battery","Wire","LED","Wood"]
+},
+
+{
+title:"Conductors 10: Motor conductor",
+order:["Battery","Wire","Motor"],
+components:["Battery","Wire","Motor","Plastic"]
+},
+
+//SAFETY (31–40)
+
+
+{
+title:"Safety 1: Safe LED",
+order:["Battery","Resistor","LED"],
+components:["Battery","Resistor","LED","Motor"]
+},
+
+{
+title:"Safety 2: Protected motor",
+order:["Battery","Switch","Motor"],
+components:["Battery","Switch","Motor","LED"]
+},
+
+{
+title:"Safety 3: Add resistor",
+order:["Battery","Resistor","Motor"],
+components:["Battery","Resistor","Motor","LED"]
+},
+
+{
+title:"Safety 4: Control current",
+order:["Battery","Switch","Resistor","LED"],
+components:["Battery","Switch","Resistor","LED"]
+},
+
+{
+title:"Safety 5: Capacitor safety",
+order:["Battery","Capacitor","LED"],
+components:["Battery","Capacitor","LED","Motor"]
+},
+
+{
+title:"Safety 6: Safe motor circuit",
+order:["Battery","Switch","Motor"],
+components:["Battery","Switch","Motor","Resistor"]
+},
+
+{
+title:"Safety 7: LED protection",
+order:["Battery","Resistor","LED"],
+components:["Battery","Resistor","LED","Motor"]
+},
+
+{
+title:"Safety 8: Switch safety",
+order:["Battery","Switch","LED"],
+components:["Battery","Switch","LED","Motor"]
+},
+
+{
+title:"Safety 9: Resistor control",
+order:["Battery","Resistor","LED"],
+components:["Battery","Resistor","LED","Motor"]
+},
+
+{
+title:"Safety 10: Full safe circuit",
+order:["Battery","Switch","Resistor","Motor"],
+components:["Battery","Switch","Resistor","Motor"]
+}
+
+];
+
+let currentPuzzle = 0;
+let selectedSlot = null;
+let correctCount = 0;
+
+const puzzleBox = document.getElementById("puzzleBox");
+const message = document.getElementById("message");
+const puzzleTitle = document.getElementById("puzzleTitle");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+const container = document.getElementById("container");
+
+const XP_PER_PUZZLE = 20;
+
+function componentCard(name){
+  const src = IMG[name] || "";
+  const safeSrc = src ? src : "images/placeholder.png"; 
+  return `
+    <div class="component" data-name="${name}">
+      <img src="${safeSrc}" alt="${name}">
+      <div>${name}</div>
+    </div>
+  `;
+}
+
+function slotFillHTML(name){
+  const src = IMG[name] || "images/placeholder.png";
+  return `
+    <img src="${src}" alt="${name}" style="width:52px;height:52px;object-fit:contain;pointer-events:none;">
+    <div style="font-weight:900;">${name}</div>
+  `;
+}
+
+function renderPuzzle() {
+  const p = puzzles[currentPuzzle];
+
+  puzzleTitle.textContent = `Puzzle ${currentPuzzle + 1} / ${puzzles.length}`;
+  prevBtn.disabled = currentPuzzle === 0;
+  nextBtn.textContent = currentPuzzle === puzzles.length - 1 ? "Submit" : "Next ➡";
+
+  let html = `
+    <p><strong>${p.title}</strong></p>
+    <p>${p.description}</p>
+    <p class="hint">Click a slot, then click a component to place it.</p>
+    <div class="slots">
+  `;
+
+  for (let i = 0; i < p.order.length; i++) {
+    html += `<div class="slot" data-index="${i}" data-name=""><div>${i+1}</div></div>`;
+  }
+
+  html += `</div><p><strong>Components</strong></p><div class="components">`;
+  p.components.forEach(name => { html += componentCard(name); });
+  html += `</div>
+    <div class="btn-row">
+      <button class="action" onclick="checkCircuit()">Check ✅</button>
+      <button class="action" onclick="resetPuzzle()">Reset ♻</button>
+    </div>
+  `;
+
+  puzzleBox.innerHTML = html;
+
+  message.textContent = "";
+  message.className = "message";
+
+  document.querySelectorAll(".slot").forEach(slot => {
+    slot.addEventListener("click", () => {
+      selectedSlot = slot;
+      document.querySelectorAll(".slot").forEach(s => s.classList.remove("selected"));
+      slot.classList.add("selected");
+    });
+  });
+
+  document.querySelectorAll(".component").forEach(comp => {
+    comp.addEventListener("click", () => {
+      if (!selectedSlot) return;
+
+      const name = comp.getAttribute("data-name");
+      selectedSlot.innerHTML = slotFillHTML(name);
+      selectedSlot.dataset.name = name;
+
+      selectedSlot.classList.add("filled");
+      selectedSlot.classList.remove("selected");
+      selectedSlot = null;
+    });
+  });
+}
+
+function checkCircuit() {
+  const p = puzzles[currentPuzzle];
+  const target = p.order;
+  const slots = document.querySelectorAll(".slot");
+  const userOrder = Array.from(slots).map(s => (s.dataset.name || "").trim());
+
+  const notFilled = userOrder.some(v => !v);
+  if (notFilled) {
+    message.textContent = "Fill all slots first.";
+    message.className = "message wrong";
+    return;
+  }
+
+  const correct = userOrder.every((v, i) => v === target[i]);
+
+  if (correct) {
+    message.className = "message correct";
+
+    if (!puzzles[currentPuzzle].solved) {
+      puzzles[currentPuzzle].solved = true;
+
+      xp += XP_PER_PUZZLE;
+      updateXPUI();
+
+      message.textContent = `✅ Correct! +${XP_PER_PUZZLE} XP`;
+    } else {
+      message.textContent = "✅ Correct! (Already rewarded)";
+    }
+
+  } else {
+    message.textContent = "❌ Wrong. Correct: " + target.join(" → ");
+    message.className = "message wrong";
+    puzzles[currentPuzzle].solved = false;
+  }
+}
+
+function resetPuzzle() {
+  const p = puzzles[currentPuzzle];
+  document.querySelectorAll(".slot").forEach((s, i) => {
+    s.innerHTML = `<div>${i + 1}</div>`;
+    s.dataset.name = "";
+    s.classList.remove("filled", "selected");
+  });
+  selectedSlot = null;
+  message.textContent = "";
+  message.className = "message";
+  p.solved = false;
+}
+
+function nextPuzzle() {
+  if (currentPuzzle === puzzles.length - 1) {
+    showScore();
+  } else {
+    currentPuzzle++;
+    renderPuzzle();
+  }
+}
+
+function prevPuzzle() {
+  if (currentPuzzle > 0) {
+    currentPuzzle--;
+    renderPuzzle();
+  }
+}
+
+function showScore() {
+  correctCount = puzzles.filter(p => p.solved).length;
+
+  container.innerHTML = `
+    <div class="score-screen">
+      <p>🎉 Finished Puzzles!</p>
+      <p>You got <span style="color:#0077b6">${correctCount}</span> / ${puzzles.length} correct.</p>
+      <p style="margin-top:10px; font-size:1.05rem; font-weight:800; color:#6a4c93;">
+        Total XP: ${xp}
+      </p>
+      <button class="menu-btn" onclick="goBack()">Go to Main Menu</button>
+    </div>
+  `;
+}
+
+function goBack() {
+  window.location.href = "index.html";
+}
+
+updateXPUI();
+renderPuzzle();
+</script>
+</body>
+</html>

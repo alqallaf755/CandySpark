@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">CandySpark</string>
+    <string name="title_activity_main">CandySpark</string>
+    <string name="package_name">com.candyspark.app</string>
+    <string name="custom_url_scheme">com.candyspark.app</string>
+</resources>
